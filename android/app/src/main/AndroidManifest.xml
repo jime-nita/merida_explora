@@ -1,4 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Permisos que necesita Mérida Explora -->
+    <!-- Cámara: tomar fotos de los lugares -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- Micrófono: dictar la opinión del lugar -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- GPS: guardar dónde estás al registrar un lugar -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- Huella o rostro: login biométrico -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    <!-- Internet: cargar los mosaicos del mapa -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="merida_explora"
         android:name="${applicationName}"
@@ -37,9 +49,19 @@
 
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
+        <!-- Ya viene por defecto: procesar texto -->
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <!-- Reconocimiento de voz (dictado) -->
+        <intent>
+            <action android:name="android.speech.RecognitionService"/>
+        </intent>
+        <!-- Abrir enlaces web y Google Maps -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
         </intent>
     </queries>
 </manifest>
