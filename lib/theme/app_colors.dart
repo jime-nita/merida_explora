@@ -12,4 +12,8 @@ class AppColors {
   static const Color fondo = Color(0xFFFFF8F2); // Crema de fondo
   static const Color texto = Color(0xFF4A4458); // Gris oscuro, se lee bien sobre pasteles
   static const Color error = Color(0xFFE57A8E); // Rosa fuerte para errores
+  // Versiones más profundas de la paleta, para íconos y elementos que deben destacar
+  static const Color rosaProfundo = Color(0xFFC9618A);
+  static const Color azulProfundo = Color(0xFF4F8FB8);
+  static const Color mostazaProfunda = Color(0xFFB8922A);
 }
