@@ -48,6 +48,22 @@ class _ListaLugaresScreenState extends State<ListaLugaresScreen> {
     }
   }
 
+  /// Abre el detalle de un lugar. Si allá se borró, recarga la lista
+  Future<void> _abrirDetalle(Lugar lugar) async {
+    final seBorro = await Navigator.pushNamed(
+      context,
+      AppRoutes.detalle,
+      arguments: lugar,
+    );
+    if (seBorro == true) {
+      _recargar();
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Lugar borrado')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,9 +124,7 @@ class _ListaLugaresScreenState extends State<ListaLugaresScreen> {
         ),
         subtitle: Text('${lugar.categoria} · $fecha'),
         trailing: const Icon(Icons.chevron_right),
-        onTap: () {
-          // Más adelante aquí se abrirá la pantalla de detalle
-        },
+        onTap: () => _abrirDetalle(lugar),
       ),
     );
   }

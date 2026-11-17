@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../models/lugar.dart';
+import '../screens/detalle_lugar_screen.dart';
 import '../screens/formulario_lugar_screen.dart';
 import '../screens/lista_lugares_screen.dart';
 
@@ -7,9 +9,9 @@ import '../screens/lista_lugares_screen.dart';
 class AppRoutes {
   AppRoutes._();
 
-  // Nombres de las rutas (más adelante agregamos el detalle)
   static const String lista = '/';
   static const String formulario = '/nuevo';
+  static const String detalle = '/detalle';
 
   /// Flutter llama a esta función cada vez que se navega a una ruta con nombre
   static Route<dynamic> generarRuta(RouteSettings settings) {
@@ -17,6 +19,13 @@ class AppRoutes {
       case formulario:
         return MaterialPageRoute(
           builder: (_) => const FormularioLugarScreen(),
+          settings: settings,
+        );
+      case detalle:
+      // El lugar viaja como argumento al navegar
+        final lugar = settings.arguments as Lugar;
+        return MaterialPageRoute(
+          builder: (_) => DetalleLugarScreen(lugar: lugar),
           settings: settings,
         );
       case lista:
