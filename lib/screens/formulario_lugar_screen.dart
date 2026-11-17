@@ -80,12 +80,17 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
   /// agrega un botón para abrir los Ajustes del celular.
   void _mostrarError(ServicioException error) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
+    final mensajero = ScaffoldMessenger.of(context);
+    mensajero.clearSnackBars(); // Quita avisos anteriores para que no se encimen
+    mensajero.showSnackBar(
       SnackBar(
         content: Text(error.mensaje),
+        duration: const Duration(seconds: 6),
+        persist: false, // Que se quite sola, aunque tenga botón
         action: error.puedeAbrirAjustes
             ? SnackBarAction(
           label: 'Ajustes',
+          textColor: AppColors.mostaza, // Se ve bien sobre el fondo oscuro
           onPressed: () => _permisos.abrirAjustes(),
         )
             : null,
@@ -182,6 +187,7 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
         ),
       );
       if (!mounted) return;
+      ScaffoldMessenger.of(context).clearSnackBars(); // Limpia avisos al salir
       Navigator.pop(context, true); // Regresa a la lista avisando que se guardó
     } on RepositorioException catch (e) {
       _mostrarMensaje(e.mensaje);
