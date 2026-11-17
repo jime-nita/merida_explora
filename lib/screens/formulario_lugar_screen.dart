@@ -9,6 +9,7 @@ import '../services/servicio_permisos.dart';
 import '../services/servicio_ubicacion.dart';
 import '../services/servicio_voz.dart';
 import '../theme/app_colors.dart';
+import '../widgets/estrellas.dart';
 
 /// Formulario para registrar un lugar nuevo:
 /// nombre, categoría, foto (cámara o galería), opinión (escrita o dictada)
@@ -49,6 +50,9 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
   bool _dictando = false; // true mientras el micrófono escucha
   bool _guardando = false; // true mientras se guarda el lugar
   String _textoAntesDeDictar = ''; // Lo que ya estaba escrito antes de dictar
+  int _calificacion = 0; // Estrellas elegidas
+  final List<String> _personas = []; // Personas con las que fue
+  final _personaCtrl = TextEditingController();
 
   @override
   void initState() {
@@ -66,6 +70,7 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
     if (_dictando) _servicioVoz.detener();
     _nombreCtrl.dispose();
     _opinionCtrl.dispose();
+    _personaCtrl.dispose();
     super.dispose();
   }
 
@@ -151,6 +156,14 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
     }
   }
 
+  /// Agrega el nombre escrito a la lista de personas (sin repetir)
+  void _agregarPersona() {
+    final nombre = _personaCtrl.text.trim();
+    if (nombre.isEmpty || _personas.contains(nombre)) return;
+    setState(() => _personas.add(nombre));
+    _personaCtrl.clear();
+  }
+
   // ---------- Guardar ----------
 
   Future<void> _guardar() async {
@@ -184,6 +197,8 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
           rutaFoto: _rutaFoto,
           latitud: latitud,
           longitud: longitud,
+          calificacion: _calificacion,
+          personas: List.of(_personas),
         ),
       );
       if (!mounted) return;
@@ -237,6 +252,8 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
                   .toList(),
             ),
             const SizedBox(height: 20),
+            _seccionCalificacionYPersonas(),
+            const SizedBox(height: 20),
             TextFormField(
               controller: _opinionCtrl,
               maxLines: 5,
@@ -274,6 +291,57 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  /// Estrellas para calificar y campo para anotar con quién fue
+  Widget _seccionCalificacionYPersonas() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Calificación',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        Estrellas(
+          calificacion: _calificacion,
+          tamano: 36,
+          alCambiar: (n) => setState(() => _calificacion = n),
+        ),
+        const SizedBox(height: 20),
+        const Text('¿Con quién fuiste?',
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        TextField(
+          controller: _personaCtrl,
+          textCapitalization: TextCapitalization.words,
+          decoration: InputDecoration(
+            hintText: 'Escribe un nombre',
+            prefixIcon: const Icon(Icons.person_add_alt),
+            suffixIcon: IconButton(
+              tooltip: 'Agregar persona',
+              icon: const Icon(Icons.add_circle),
+              color: AppColors.rosaProfundo,
+              onPressed: _agregarPersona,
+            ),
+          ),
+          onSubmitted: (_) => _agregarPersona(),
+        ),
+        if (_personas.isNotEmpty) ...[
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            children: _personas
+                .map(
+                  (nombre) => InputChip(
+                label: Text(nombre),
+                backgroundColor: AppColors.azulCielo,
+                onDeleted: () => setState(() => _personas.remove(nombre)),
+              ),
+            )
+                .toList(),
+          ),
+        ],
+      ],
     );
   }
 

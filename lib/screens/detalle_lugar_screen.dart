@@ -8,6 +8,7 @@ import '../data/lugar_repositorio_sqlite.dart';
 import '../models/lugar.dart';
 import '../theme/app_colors.dart';
 import '../widgets/foto_lugar.dart';
+import '../widgets/estrellas.dart';
 
 /// Muestra toda la información de un lugar: foto, opinión y mapa.
 class DetalleLugarScreen extends StatelessWidget {
@@ -111,6 +112,29 @@ class DetalleLugarScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
+          if (lugar.calificacion > 0) ...[
+            Estrellas(calificacion: lugar.calificacion, tamano: 28),
+            const SizedBox(height: 16),
+          ],
+          if (lugar.personas.isNotEmpty) ...[
+            const Text('Acompañada de:',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              children: lugar.personas
+                  .map(
+                    (nombre) => Chip(
+                  avatar: const Icon(Icons.person, size: 18),
+                  label: Text(nombre),
+                  backgroundColor: AppColors.azulCielo,
+                  side: BorderSide.none,
+                ),
+              )
+                  .toList(),
+            ),
+            const SizedBox(height: 16),
+          ],
           const Text('Mi opinión',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           const SizedBox(height: 4),

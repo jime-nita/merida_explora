@@ -7,6 +7,7 @@ import '../routes/app_routes.dart';
 import '../theme/app_colors.dart';
 import '../widgets/foto_lugar.dart';
 import '../widgets/menu_lateral.dart';
+import '../widgets/estrellas.dart';
 
 /// Pantalla principal: muestra la lista de lugares guardados.
 class ListaLugaresScreen extends StatefulWidget {
@@ -122,7 +123,15 @@ class _ListaLugaresScreenState extends State<ListaLugaresScreen> {
           lugar.nombre,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text('${lugar.categoria} · $fecha'),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('${lugar.categoria} · $fecha'),
+            // Solo mostramos estrellas si el lugar fue calificado
+            if (lugar.calificacion > 0)
+              Estrellas(calificacion: lugar.calificacion, tamano: 16),
+          ],
+        ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () => _abrirDetalle(lugar),
       ),

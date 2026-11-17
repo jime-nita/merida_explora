@@ -11,6 +11,8 @@ class Lugar {
   final String? rutaFoto; // Ruta de la foto en el celular (puede no haber)
   final double? latitud; // Coordenadas GPS (pueden faltar si negó el permiso)
   final double? longitud;
+  final int calificacion; // Estrellas de 0 a 5 (0 = sin calificar)
+  final List<String> personas; // Con quién fue a ese lugar
 
   const Lugar({
     this.id,
@@ -21,13 +23,16 @@ class Lugar {
     this.rutaFoto,
     this.latitud,
     this.longitud,
+    this.calificacion = 0,
+    this.personas = const [],
   });
 
   /// Dice si el lugar tiene coordenadas guardadas
   bool get tieneUbicacion => latitud != null && longitud != null;
 
   /// Convierte el lugar a un Map para guardarlo en SQLite.
-  /// La foto y las coordenadas se empaquetan como JSON en "metadatos".
+  /// La foto, las coordenadas, las estrellas y las personas
+  /// se empaquetan como JSON en "metadatos".
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -39,6 +44,8 @@ class Lugar {
         'rutaFoto': rutaFoto,
         'latitud': latitud,
         'longitud': longitud,
+        'calificacion': calificacion,
+        'personas': personas,
       }),
     };
   }
@@ -58,6 +65,12 @@ class Lugar {
       rutaFoto: metadatos['rutaFoto'] as String?,
       latitud: (metadatos['latitud'] as num?)?.toDouble(),
       longitud: (metadatos['longitud'] as num?)?.toDouble(),
+      // Los lugares guardados antes no traen estos datos: usamos valores vacíos
+      calificacion: (metadatos['calificacion'] as num?)?.toInt() ?? 0,
+      personas: (metadatos['personas'] as List?)
+          ?.map((nombre) => nombre.toString())
+          .toList() ??
+          const [],
     );
   }
 
