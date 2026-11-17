@@ -17,7 +17,7 @@ class MeridaExploraApp extends StatelessWidget {
       title: 'Mérida Explora',
       debugShowCheckedModeBanner: false, // Quita la etiqueta "debug"
       theme: AppTheme.tema,
-      initialRoute: AppRoutes.lista, // Pantalla con la que inicia
+      initialRoute: AppRoutes.login, // La app inicia pidiendo la huella
       onGenerateRoute: AppRoutes.generarRuta, // Reparte las rutas con nombre
     );
   }
