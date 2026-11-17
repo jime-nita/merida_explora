@@ -36,25 +36,14 @@ class _ListaLugaresScreenState extends State<ListaLugaresScreen> {
     });
   }
 
-  /// TEMPORAL: guarda un lugar de prueba para ver la base de datos funcionando
-  Future<void> _agregarLugarDePrueba() async {
-    try {
-      await _repositorio.insertar(
-        Lugar(
-          nombre: 'Lugar de prueba',
-          categoria: 'Parque',
-          opinion: 'Un lugar bonito para probar la base de datos',
-          fecha: DateTime.now(),
-          latitud: 20.9674,
-          longitud: -89.5926,
-        ),
-      );
+  /// Abre el formulario y, si se guardó un lugar, recarga la lista
+  Future<void> _abrirFormulario() async {
+    final guardado = await Navigator.pushNamed(context, AppRoutes.formulario);
+    if (guardado == true) {
       _recargar();
-    } on RepositorioException catch (e) {
-      // Si falla, mostramos un mensaje en vez de cerrar la app
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.mensaje)),
+        const SnackBar(content: Text('¡Lugar guardado! 🌸')),
       );
     }
   }
@@ -95,7 +84,7 @@ class _ListaLugaresScreenState extends State<ListaLugaresScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _agregarLugarDePrueba, // Temporal
+        onPressed: _abrirFormulario,
         tooltip: 'Agregar lugar',
         child: const Icon(Icons.add),
       ),
