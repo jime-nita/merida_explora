@@ -25,19 +25,16 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: esquema,
       scaffoldBackgroundColor: AppColors.fondo,
-      // Barra superior rosa
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.rosa,
         foregroundColor: AppColors.texto,
         centerTitle: true,
         elevation: 0,
       ),
-      // Botón flotante mostaza
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.mostaza,
         foregroundColor: AppColors.texto,
       ),
-      // Botones normales azul cielo con esquinas redondeadas
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.azulCielo,
@@ -48,7 +45,6 @@ class AppTheme {
           ),
         ),
       ),
-      // Campos de texto blancos y redondeados
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: Colors.white,

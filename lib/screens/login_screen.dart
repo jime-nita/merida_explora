@@ -63,7 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Círculo rosa con el ícono de huella
                 Container(
                   width: 120,
                   height: 120,

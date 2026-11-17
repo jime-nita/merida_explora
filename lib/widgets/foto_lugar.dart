@@ -21,7 +21,7 @@ class FotoLugar extends StatelessWidget {
   Widget build(BuildContext context) {
     final ruta = lugar.rutaFoto;
 
-    // Si hay foto la mostramos; si no (o si falla al cargar), mostramos un ícono
+    // Si hay foto la mostramos, si no (o si falla al cargar), mostramos un ícono
     final Widget contenido = ruta == null
         ? _marcador()
         : Image.file(

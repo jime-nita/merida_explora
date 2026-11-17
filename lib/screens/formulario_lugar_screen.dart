@@ -51,7 +51,7 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
   bool _guardando = false; // true mientras se guarda el lugar
   String _textoAntesDeDictar = ''; // Lo que ya estaba escrito antes de dictar
   int _calificacion = 0; // Estrellas elegidas
-  final List<String> _personas = []; // Personas con las que fue
+  final List<String> _personas = []; // Personas con las que fui
   final _personaCtrl = TextEditingController();
 
   @override
@@ -95,7 +95,7 @@ class _FormularioLugarScreenState extends State<FormularioLugarScreen> {
         action: error.puedeAbrirAjustes
             ? SnackBarAction(
           label: 'Ajustes',
-          textColor: AppColors.mostaza, // Se ve bien sobre el fondo oscuro
+          textColor: AppColors.mostaza,
           onPressed: () => _permisos.abrirAjustes(),
         )
             : null,
